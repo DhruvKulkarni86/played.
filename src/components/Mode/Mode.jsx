@@ -1,14 +1,44 @@
-import { Box, Card, Typography } from "@mui/material";
-import React, { useContext } from "react";
-import { StepContext } from "../../functions/StepContext";
+import { Box, Card, Snackbar, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import Confirmation from "../../pages/Confirmation/Confirmation";
 import Landing from "../../pages/Landing/Landing";
 import Error from "../../pages/Error/Error";
 import Search from "../../pages/Search/Search";
-import Progress from "../Progress/Progress";
+import Slide from "@mui/material/Slide";
 
 const Mode = () => {
-	const level = useContext(StepContext);
+	// const [open, setOpen] = useState(false);
+	const [step, setStep] = useState(0);
+
+	// const handleClose = (event, reason) => {
+	// 	if (reason === "clickaway") {
+	// 		return;
+	// 	}
+	// 	setOpen(false);
+	// };
+
+	let hash = window.location.hash;
+	let result = hash
+		.substring(1)
+		.split("&")
+		.reduce(function (res, item) {
+			var parts = item.split("=");
+			res[parts[0]] = parts[1];
+			return res;
+		}, {});
+
+	useEffect(() => {
+		if (hash) {
+			console.log("CALLED");
+			localStorage.clear();
+			localStorage.setItem("accessToken", result.access_token);
+			localStorage.setItem("expiresIn", result.expires_in);
+			localStorage.setItem("tokenType", result.token_type);
+			setStep(1);
+			// setOpen(true);
+		}
+	});
+
 	return (
 		<Box
 			sx={{
@@ -24,26 +54,27 @@ const Mode = () => {
 				sx={{
 					width: "50%",
 					height: "30rem",
-					borderColor: "txt.main",
+					borderColor: "spotify.main",
 					borderWidth: "4px",
 					borderRadius: "5px",
 					display: "flex",
+					flexDirection: "column",
 					fontFamily: "Josefin Sans",
-					justifyContent: "center",
-					alignItems: "center",
+					// justifyContent: "center",
+					// alignItems: "center",
 				}}
 			>
-				{level === 0 ? (
-					<Landing />
-				) : level === 1 ? (
-					<Search />
-				) : level === 2 ? (
-					<Confirmation />
-				) : (
-					<Error />
-				)}
+				{step === 0 && <Landing />}
+				{step === 1 && <Search />}
+				{step === 2 && <Confirmation />}
+				{step === 3 && <Error />}
 			</Card>
-			<Progress />
+			{/* <Snackbar
+				open={open}
+				onClose={handleClose}
+				autoHideDuration={3000}
+				message="Welcome!"
+			/> */}
 		</Box>
 	);
 };

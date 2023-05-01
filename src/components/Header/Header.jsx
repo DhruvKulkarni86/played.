@@ -11,7 +11,7 @@ const Header = () => {
 				display: "flex",
 			}}
 		>
-			<Typography
+			{/* <Typography
 				variant="h1"
 				sx={{
 					fontWeight: "medium",
@@ -25,7 +25,7 @@ const Header = () => {
 				}}
 			>
 				Played.
-			</Typography>
+			</Typography> */}
 		</Box>
 	);
 };

@@ -3,7 +3,7 @@ import Login from "../../components/Buttons/Login";
 
 const Landing = () => {
 	return (
-		<Stack gap={0} sx={{ alignItems: "center" }}>
+		<Stack gap={0} sx={{ alignItems: "center", margin: "auto" }}>
 			<Typography variant="h3">Welcome to Played</Typography>
 			<Typography
 				variant="body1"

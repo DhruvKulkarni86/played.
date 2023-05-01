@@ -11,7 +11,6 @@ const App = () => {
 			<Stack
 				sx={{
 					backgroundColor: "back.main",
-					// "linear-gradient(to right, #BBD2C5,#536976,#292E49)",
 					minHeight: "100vh",
 					maxWidth: "100vw",
 					// justifyContent: "center",
