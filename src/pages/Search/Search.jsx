@@ -11,6 +11,13 @@ const Search = () => {
 	const accessToken = localStorage.getItem("accessToken");
 	const [search, setSearch] = useState("");
 	const [searchRes, setSearchRes] = useState([]);
+	const [songs, setSongs] = useState([]);
+	console.log("SONGSS", songs);
+
+	useEffect(() => {
+		localStorage.setItem("songs", JSON.stringify(songs));
+	}, [songs]);
+
 	useEffect(() => {
 		if (!accessToken) return;
 		spotifyApi.setAccessToken(accessToken);
@@ -46,13 +53,14 @@ const Search = () => {
 		return () => (cancel = true);
 	}, [search, accessToken]);
 	console.log("RES", searchRes);
+
 	return (
 		<Stack
 			gap={2}
 			sx={{
 				alignItems: "center",
 				padding: 2,
-				minHeight: "100%",
+				minHeight: "90%",
 			}}
 		>
 			<TextField
@@ -64,25 +72,34 @@ const Search = () => {
 				size="small"
 				// sx={{ alignSelf: "flex-start" }}
 			/>
-			<Box sx={{ overflowY: "scroll", width: "100%", height: "100%" }}>
-				<Stack
-					spacing={2}
-					className="tracks"
-					sx={{
-						border: "2px solid red",
-						minWidth: "100%",
-						// height: "100%",
-						// overflow: "scroll",
-					}}
+			{searchRes.length !== 0 && (
+				<Box
+					sx={{ overflowY: "scroll", width: "100%", height: "100%" }}
 				>
-					{/* {searchRes.length !== 0 && (
+					<Stack
+						spacing={2}
+						className="tracks"
+						sx={{
+							// border: "2px solid red",
+							minWidth: "100%",
+							// height: "100%",
+							// overflow: "scroll",
+						}}
+					>
+						{/* {searchRes.length !== 0 && (
 					<TrackView track={searchRes[0]} key={searchRes[0].uri} />
 				)} */}
-					{searchRes.map((track) => (
-						<TrackView track={track} key={track.uri} />
-					))}
-				</Stack>
-			</Box>
+						{searchRes.map((track) => (
+							<TrackView
+								track={track}
+								key={track.uri}
+								setSongs={setSongs}
+								songs={songs}
+							/>
+						))}
+					</Stack>
+				</Box>
+			)}
 		</Stack>
 	);
 };
