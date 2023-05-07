@@ -4,6 +4,11 @@ import Confirmation from "../../pages/Confirmation/Confirmation";
 import Landing from "../../pages/Landing/Landing";
 import Error from "../../pages/Error/Error";
 import Search from "../../pages/Search/Search";
+import SpotifyWebApi from "spotify-web-api-node";
+
+const spotifyApi = new SpotifyWebApi({
+	clientId: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
+});
 
 const Mode = () => {
 	const [step, setStep] = useState(0);
@@ -13,6 +18,17 @@ const Mode = () => {
 	};
 
 	let hash = window.location.hash;
+	const home = () => {
+		// localStorage.clear();
+		// window.location.replace("http://localhost:5173/");
+		setStep(1);
+	};
+
+	const goBack = () => {
+		setStep(step - 1);
+	};
+
+	// let hash = window.location.hash;
 	let result = hash
 		.substring(1)
 		.split("&")
@@ -32,6 +48,22 @@ const Mode = () => {
 		}
 		// setStep(1);
 	});
+
+	const accessToken = localStorage.getItem("accessToken");
+	useEffect(() => {
+		if (!accessToken) return;
+		// console.log("ACC");
+		spotifyApi.setAccessToken(accessToken);
+	}, [accessToken]);
+
+	useEffect(() => {
+		if (!accessToken) return;
+
+		spotifyApi.getMe().then((res) => {
+			localStorage.setItem("uname", res.body.display_name);
+			localStorage.setItem("uid", res.body.id);
+		});
+	}, [accessToken]);
 
 	return (
 		<Box
@@ -58,11 +90,11 @@ const Mode = () => {
 					// alignItems: "center",
 				}}
 			>
-				{step === 0 && <Landing step={step} nextStp={nextStp} />}
+				{step === 0 && <Landing nextStp={nextStp} />}
 				{step === 1 && <Search />}
-				{step === 2 && <Confirmation />}
+				{step === 2 && <Confirmation goBack={goBack} home={home} />}
 				{step === 3 && <Error />}
-				{step !== 0 && (
+				{step !== 0 && step !== 2 && (
 					<Box
 						sx={{
 							alignSelf: "flex-end",

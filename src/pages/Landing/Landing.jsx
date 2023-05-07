@@ -1,7 +1,7 @@
 import { Stack, Typography, Button } from "@mui/material";
 import Login from "../../components/Buttons/Login";
 
-const Landing = ({ step, nextStp }) => {
+const Landing = ({ nextStp }) => {
 	let hash = window.location.hash;
 
 	return (
@@ -19,13 +19,18 @@ const Landing = ({ step, nextStp }) => {
 				</>
 			)}
 			{hash && (
-				<Button
-					onClick={nextStp}
-					variant="contained"
-					sx={{ width: "100%" }}
-				>
-					Next
-				</Button>
+				<>
+					<Typography variant="body1">
+						Logged In Successfully!
+					</Typography>
+					<Button
+						onClick={nextStp}
+						variant="contained"
+						sx={{ width: "100%" }}
+					>
+						Next
+					</Button>
+				</>
 			)}
 		</Stack>
 	);
