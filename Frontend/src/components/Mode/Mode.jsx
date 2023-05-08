@@ -59,10 +59,15 @@ const Mode = () => {
 	useEffect(() => {
 		if (!accessToken) return;
 
-		spotifyApi.getMe().then((res) => {
-			localStorage.setItem("uname", res.body.display_name);
-			localStorage.setItem("uid", res.body.id);
-		});
+		spotifyApi
+			.getMe()
+			.then((res) => {
+				localStorage.setItem("uname", res.body.display_name);
+				localStorage.setItem("uid", res.body.id);
+			})
+			.catch((err) => {
+				console.log("ERRR", err);
+			});
 	}, [accessToken]);
 
 	return (
