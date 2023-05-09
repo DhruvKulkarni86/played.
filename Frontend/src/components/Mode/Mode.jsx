@@ -5,6 +5,7 @@ import Landing from "../../pages/Landing/Landing";
 import Error from "../../pages/Error/Error";
 import Search from "../../pages/Search/Search";
 import SpotifyWebApi from "spotify-web-api-node";
+import Weather from "../../pages/Weather/Weather";
 
 const spotifyApi = new SpotifyWebApi({
 	clientId: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
@@ -26,6 +27,10 @@ const Mode = () => {
 
 	const goBack = () => {
 		setStep(step - 1);
+	};
+
+	const goWeather = () => {
+		setStep(3);
 	};
 
 	// let hash = window.location.hash;
@@ -95,10 +100,13 @@ const Mode = () => {
 					// alignItems: "center",
 				}}
 			>
-				{step === 0 && <Landing nextStp={nextStp} />}
+				{step === 0 && (
+					<Landing nextStp={nextStp} goWeather={goWeather} />
+				)}
 				{step === 1 && <Search />}
 				{step === 2 && <Confirmation goBack={goBack} home={home} />}
-				{step === 3 && <Error />}
+				{step === 3 && <Weather />}
+				{step === 4 && <Error />}
 				{step !== 0 && step !== 2 && (
 					<Box
 						sx={{

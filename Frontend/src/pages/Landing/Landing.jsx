@@ -1,7 +1,7 @@
 import { Stack, Typography, Button } from "@mui/material";
 import Login from "../../components/Buttons/Login";
 
-const Landing = ({ nextStp }) => {
+const Landing = ({ nextStp, goWeather }) => {
 	let hash = window.location.hash;
 
 	return (
@@ -29,6 +29,13 @@ const Landing = ({ nextStp }) => {
 						sx={{ width: "100%" }}
 					>
 						Next
+					</Button>
+					<Button
+						onClick={goWeather}
+						variant="contained"
+						sx={{ width: "100%" }}
+					>
+						Suggest a Playlist!
 					</Button>
 				</>
 			)}
